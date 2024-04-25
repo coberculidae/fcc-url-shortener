@@ -8,7 +8,7 @@ const getURL = async (req, res) => {
 }
 
 const createShortURL = async (req, res) => {
-    if (req.body.url.includes('https://www.')) {
+    if (req.body.url.includes('https://')) {
         let urlObject = new URL(req.body.url)
         dns.lookup(urlObject.hostname, async (err) => {
             if (err) {
