@@ -14,7 +14,7 @@ const createShortURL = async (req, res) => {
      try {
         let urlObject = new URL(req.body.url)
         console.log(urlObject)
-        if (urlObject.protocol === 'http:' || 'https:') {
+        if (urlObject.protocol === 'http:' || urlObject.protocol === 'https:') {
             dns.lookup(urlObject.hostname, async (err) => {
                 if (err) {
                     console.log('dns')
