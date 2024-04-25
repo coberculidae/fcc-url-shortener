@@ -10,7 +10,8 @@ const getURL = async (req, res) => {
 const createShortURL = async (req, res) => {
     let valid = false
     // let urlHost = req.body.url.replace('www.',"")
-    // if (req.body.url.includes('https://')) {
+    const urlPattern = new RegExp('^(https?:\\/\\/)?')
+     try {
         let urlObject = new URL(req.body.url)
         console.log(urlObject)
         dns.lookup(urlObject.hostname, async (err) => {
@@ -25,6 +26,9 @@ const createShortURL = async (req, res) => {
             }
         }
         );
+     } catch (error) {
+        res.json({error : 'invalid url'})
+     }
     }
 
 module.exports = {
