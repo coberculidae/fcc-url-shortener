@@ -15,7 +15,7 @@ const createShortURL = async (req, res) => {
     dns.lookup(urlObject.hostname, async (err) => 
     {
         if (err) {
-            res.json({error: "invalid url"})
+            res.json({error: 'invalid url'})
         } else {
             const url = {}
             url.original_url = urlObject
