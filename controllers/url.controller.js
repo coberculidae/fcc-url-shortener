@@ -14,18 +14,24 @@ const createShortURL = async (req, res) => {
      try {
         let urlObject = new URL(req.body.url)
         console.log(urlObject)
-        dns.lookup(urlObject.hostname, async (err) => {
-            if (err) {
-                res.json({ error: 'invalid url' })
-            } else {
-                const url = {}
-                url.original_url = urlObject
-                url.short_url = String(Math.floor(Math.random() * 10000))
-                const shortener = await TaskShortener.create(url)
-                res.json(url)
+        if (urlObject.protocol === 'http:' || 'https:') {
+            dns.lookup(urlObject.hostname, async (err) => {
+                if (err) {
+                    console.log('dns')
+                    res.json({ error: 'invalid url' })
+                } else {
+                    console.log('not dns')
+                    const url = {}
+                    url.original_url = urlObject
+                    url.short_url = String(Math.floor(Math.random() * 10000))
+                    const shortener = await TaskShortener.create(url)
+                    res.json(url)
+                }
             }
+            );
+        } else {
+            res.json({ error: 'invalid url' })
         }
-        );
      } catch (error) {
         res.json({error : 'invalid url'})
      }
